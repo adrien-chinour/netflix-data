@@ -2,7 +2,8 @@
 
 ## Get your Netflix data
 
-
+Go on this page [https://www.netflix.com/account/getmyinfo](https://www.netflix.com/account/getmyinfo) and request a data copy.
+When data is ready just download and export on data folder.
 
 ## Installation
 1. Put your netflix export data in data folder.
