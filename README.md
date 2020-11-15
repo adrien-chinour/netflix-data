@@ -1,7 +1,13 @@
 # Netflix data
 
-## Installation
+## Get your Netflix data
 
+
+
+## Installation
+1. Put your netflix export data in data folder.
+
+2. Install dependencies :
 ```bash
 # With docker
 docker-compose run --rm app composer install
