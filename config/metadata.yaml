@@ -1,6 +1,0 @@
-App\Model\ViewingTime:
-    attributes:
-        profileName: "Profile Name"
-        startTime: "Start Time"
-        duration: "Duration"
-        title: "Title"

@@ -11,18 +11,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ViewingTimeCommand extends Command
 {
-
     private SymfonyStyle $io;
-
-    public function __construct(string $name = null)
-    {
-        parent::__construct($name);
-    }
 
     protected function configure()
     {
-        $this
-            ->setName("time");
+        $this->setName("time");
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
@@ -30,7 +23,7 @@ class ViewingTimeCommand extends Command
         $this->io = new SymfonyStyle($input, $output);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $data = ViewingActivity::load();
 
@@ -56,7 +49,6 @@ class ViewingTimeCommand extends Command
             if (!isset($profileViewedTime[$key])) {
                 $profileViewedTime[$key] = ['profile' => $activity->profileName, 'time' => 0];
             }
-
             $profileViewedTime[$key]['time'] += TimeHelper::timeToSeconds($activity->duration);
         }
 
@@ -87,15 +79,13 @@ class ViewingTimeCommand extends Command
         }
 
         // order by viewing time
-        usort($programViewedTime, function ($a, $b) {
-            return $a['time'] < $b['time'];
-        });
+        usort($programViewedTime, fn($a, $b) => $a['time'] < $b['time'] ? 1 : -1);
 
         // remove junk program
-        $programViewedTime = array_filter($programViewedTime, function ($item) {
-            return !str_contains($item['title'], "Bande-annonce")
-                && !str_contains($item['title'], '_');
-        });
+        $programViewedTime = array_filter(
+            $programViewedTime,
+            fn($item) => !str_contains($item['title'], "Bande-annonce") && !str_contains($item['title'], '_')
+        );
 
         // set readable time
         $programViewedTime = array_map(function ($item) {

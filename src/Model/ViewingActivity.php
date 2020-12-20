@@ -2,44 +2,42 @@
 
 namespace App\Model;
 
-/**
- * Class ViewingActivity
- * @package App\Model
- */
+use App\Attribute\FileModel;
+use Symfony\Component\Serializer\Annotation\SerializedName;
+
+#[FileModel(filename: "Content_Interaction/ViewingActivity.csv")]
 class ViewingActivity extends Model
 {
-    static string $file = "Content_Interaction/ViewingActivity.csv";
-
+    #[SerializedName("Profile Name")]
     public string $profileName;
 
+    #[SerializedName("Start Time")]
     public string $startTime;
 
+    #[SerializedName("Duration")]
     public string $duration;
 
+    #[SerializedName("Title")]
     public string $title;
 
-    public function setProfileName(string $profileName): ViewingActivity
+    public function setProfileName(string $profileName): void
     {
         $this->profileName = $profileName;
-        return $this;
     }
 
-    public function setStartTime(string $startTime): ViewingActivity
+    public function setStartTime(string $startTime): void
     {
         $this->startTime = $startTime;
-        return $this;
     }
 
-    public function setDuration(string $duration): ViewingActivity
+    public function setDuration(string $duration): void
     {
         $this->duration = $duration;
-        return $this;
     }
 
-    public function setTitle(string $title): ViewingActivity
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-        return $this;
     }
 
     public function getTrimmedTitle(): string

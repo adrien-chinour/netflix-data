@@ -4,7 +4,7 @@ namespace App;
 
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
-use Symfony\Component\Serializer\Mapping\Loader\YamlFileLoader;
+use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -12,7 +12,6 @@ use Symfony\Component\Serializer\Serializer;
 
 class Loader
 {
-
     private string $dataFile;
 
     private string $dataClass;
@@ -21,10 +20,7 @@ class Loader
 
     public function __construct(string $dataFile, string $dataClass)
     {
-        // Load mapping between CSV and model class
-        $classMetadataFactory = new ClassMetadataFactory(
-            new YamlFileLoader(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'config', 'metadata.yaml']))
-        );
+        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader());
 
         // normalizers for symfony serializer object
         $normalizers = [
@@ -42,7 +38,7 @@ class Loader
         return $this->serializer->deserialize($this->loadDataFile(), $this->dataClass . "[]", 'csv');
     }
 
-    private function loadDataFile()
+    private function loadDataFile(): string
     {
         $file = implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'data', $this->dataFile]);
         if (file_exists($file)) {
@@ -50,5 +46,4 @@ class Loader
         }
         throw new \InvalidArgumentException(sprintf("File %s not found.", $file));
     }
-
 }
